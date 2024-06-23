@@ -24,7 +24,9 @@ analysis = st.selectbox("Select Analysis", [
     '8. Analysis of the relationship between price and availability',
     '9. Fetch the property_type, name, and amenities for the desired price, accommodation, and country',
     '10. Fetch the name, price, accommodates, amenities, street for the specified country and property_type',
-    '11. Fetch the number of bathrooms and bedrooms for the desired property_type'
+    '11. Fetch the number of bathrooms and bedrooms for the desired property_type',
+    '12. Analysis of home stay count for each country',
+    '13. Analysis of country based on the sorted order of average ratings given to home stays in that particular country'
 ], key="analysis_select")
 
 if analysis == '1. Analysis of the relationship between Price and Accommodation':
@@ -397,7 +399,7 @@ elif analysis == '12. Analysis of home stay count for each country':
     # Display the data in the form of a table
     st.subheader("Home Stay Count by Country")
     st.write(country_homestay_count)
-elif analysis == '13. Analysis of country based on the sorted order of average ratings given to home stays for each country':
+elif analysis == '13. Analysis of country based on the sorted order of average ratings given to home stays in that particular country':
     # Group by 'country' and calculate the average rating
     avg_rating_by_country = df.groupby('address.country')['review_scores.review_scores_rating'].mean().reset_index()
 
