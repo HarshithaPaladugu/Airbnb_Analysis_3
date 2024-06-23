@@ -367,3 +367,63 @@ elif analysis == '11. Fetch the number of bathrooms and bedrooms for the desired
     # Display the filtered data
     st.subheader("Number of Bathrooms and Bedrooms")
     st.write(filtered_df_11[['name','bathrooms', 'bedrooms','address.country','address.street']])
+elif analysis == '12. Analysis of home stay count for each country':
+    # Group by 'address.country' and count the number of values in the 'name' column
+    country_homestay_count = df.groupby('address.country')['name'].count().reset_index()
+    country_homestay_count.columns = ['Country', 'Homestay Count']
+    
+    # Sort the data by homestay count in descending order
+    country_homestay_count = country_homestay_count.sort_values(by='Homestay Count', ascending=False)
+
+    # Create a choropleth map to visualize the home stay count for each country
+    fig_homestay_count = px.choropleth(
+        country_homestay_count,
+        locations='Country',
+        locationmode='country names',
+        color='Homestay Count',
+        title='Home Stay Count by Country',
+        color_continuous_scale='Viridis'
+    )
+
+    # Customize the layout
+    fig_homestay_count.update_layout(
+        geo=dict(showframe=False, showcoastlines=False, projection_type='equirectangular'),
+        coloraxis_colorbar=dict(title='Homestay Count')
+    )
+
+    # Show the plot using Streamlit's Plotly support
+    st.plotly_chart(fig_homestay_count)
+
+    # Display the data in the form of a table
+    st.subheader("Home Stay Count by Country")
+    st.write(country_homestay_count)
+elif analysis == '13. Analysis of country based on the sorted order of average ratings given to home stays for each country':
+    # Group by 'country' and calculate the average rating
+    avg_rating_by_country = df.groupby('address.country')['review_scores.review_scores_rating'].mean().reset_index()
+
+    # Sort the countries based on average ratings
+    avg_rating_by_country = avg_rating_by_country.sort_values(by='review_scores.review_scores_rating', ascending=False)
+
+    # Create a choropleth map to visualize the average ratings by country
+    fig_avg_rating_by_country_choropleth = px.choropleth(
+        avg_rating_by_country,
+        locations='address.country',
+        locationmode='country names',
+        color='review_scores.review_scores_rating',
+        hover_name='address.country',
+        color_continuous_scale='Magma',
+        title='Average Ratings of Home Stays by Country'
+    )
+
+    # Customize the layout
+    fig_avg_rating_by_country_choropleth.update_layout(
+        geo=dict(showframe=False, showcoastlines=False),
+        coloraxis_colorbar=dict(title='Average Rating')
+    )
+
+    # Show the plot using Streamlit's Plotly support
+    st.plotly_chart(fig_avg_rating_by_country_choropleth)
+
+    # Display the data of average ratings by country in the form of a table
+    st.subheader("Average Ratings of Home Stays by Country")
+    st.write(avg_rating_by_country)
