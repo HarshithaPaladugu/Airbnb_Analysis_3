@@ -28,3 +28,5 @@ Dataset:https://drive.google.com/file/d/1C7AilYDf2pA09Jy-5wYysvLwKC9_Fu9X/view
 *The desired columns are fetched from the huge dataset containing 30 columns and 5555 rows, to create a new data frame.
 *The new data frame is saved as a csv file in the desired path.
 *The analysis is performed on the csv file created by fetching the desired attributes from the huge dataset.
+#Airbnb_pBI_Report.pdf:
+*Contains the visualizations of the Airbnb dataset drawn using powerBI tool
