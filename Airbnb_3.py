@@ -16,7 +16,7 @@ st.title('Airbnb Analysis and Exploration')
 analysis = st.selectbox("Select Analysis", [
     '1. Analysis of the relationship between Price and Accommodation',
     '2. Analysis of relationship between Price and Property_type',
-    '3. Analysis of relationship among Price, Weekly_price, and Monthly_Price',
+    '3. Analysis of relationship among Property_Type, Weekly_price, and Monthly_Price',
     '4. Analysis of the relationship between property_type, availability_365, availability_30, availability_60, availability_90',
     '5. Analysis of the relationship between property_type and rating',
     '6. Analysis of the relationship between price and rating',
@@ -101,7 +101,7 @@ elif analysis == '2. Analysis of relationship between Price and Property_type':
     st.subheader("Average Price by Property Type")
     st.write(avg_price_by_property_type)
 
-elif analysis == '3. Analysis of relationship among Price, Weekly_price, and Monthly_Price':
+elif analysis == '3. Analysis of relationship among Property_Type, Weekly_price, and Monthly_Price':
     # Group by 'property_type' and calculate the average weekly and monthly price
     avg_weekly_monthly_price_by_property_type = df.groupby('property_type')[['weekly_price', 'monthly_price']].mean().reset_index()
 
