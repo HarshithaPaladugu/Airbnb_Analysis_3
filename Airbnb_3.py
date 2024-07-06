@@ -20,18 +20,17 @@ analysis = st.selectbox("Select Analysis", [
     '4. Analysis of the relationship between property_type, availability_365, availability_30, availability_60, availability_90',
     '5. Analysis of the relationship between property_type and rating',
     '6. Analysis of the relationship between price and rating',
-    '7. Analysis of the relationship between rating and availability',
-    '8. Analysis of the relationship between price and availability',
-    '9. Fetch the property_type, name, and amenities for the desired price, accommodation, and country',
-    '10. Fetch the name, price, accommodates, amenities, street for the specified country and property_type',
-    '11. Fetch the number of bathrooms and bedrooms for the desired property_type',
-    '12. Analysis of home stay count for each country',
-    '13. Analysis of country based on the sorted order of average ratings given to home stays in that particular country'
+    '7. Analysis of the relationship between price and availability',
+    '8. Fetch the property_type, listing, and amenities for the desired price, accommodation, and country',
+    '9. Fetch the name, price, accommodates, amenities, street for the specified country and property_type',
+    '10. Fetch the name, country, street, number of bathrooms and bedrooms for the desired property_type',
+    '11. Analysis of home stay count for each country',
+    '12. Analysis of country based on the sorted order of average ratings given to home stays in that particular country'
 ], key="analysis_select")
 
 if analysis == '1. Analysis of the relationship between Price and Accommodation':
     # Display the average price
-    st.subheader(f'The average price of Airbnb listings is: ${average_price:.2f}')
+  
 
     # Group by 'accommodates' and calculate the average price
     avg_price_by_accommodates = df.groupby('accommodates')['price'].mean().reset_index()
@@ -221,46 +220,9 @@ elif analysis == '6. Analysis of the relationship between price and rating':
     st.subheader("Price and Rating Data")
     st.write(df[['price', 'review_scores.review_scores_rating']])
 
-elif analysis == '7. Analysis of the relationship between rating and availability':
-    availability_columns = ['availability.availability_365', 'availability.availability_30', 'availability.availability_60', 'availability.availability_90']
-    
-    # Ensure availability columns are present and convert to numeric if necessary
-    for col in availability_columns:
-        if df[col].dtype == object:  # Convert to numeric if the columns are not already numeric
-            df[col] = pd.to_numeric(df[col], errors='coerce')
 
-    # Melt the dataframe to have availability periods and average rating in a single column
-    melted_availability_df = df.melt(id_vars='review_scores.review_scores_rating', value_vars=availability_columns, 
-                                     var_name='Availability Period', value_name='Availability')
 
-    # Filter out rows where availability or rating is NaN
-    melted_availability_df = melted_availability_df.dropna(subset=['review_scores.review_scores_rating', 'Availability'])
-
-    # Create a bar chart to visualize the relationship between distinct ratings and availability periods
-    fig_availability_rating = px.bar(
-        melted_availability_df,
-        x='Availability Period',
-        y='review_scores.review_scores_rating',
-        color='Availability Period',
-        barmode='group',
-        title='Distinct Ratings by Availability Period',
-        labels={'Availability Period': 'Availability Period', 'review_scores.review_scores_rating': 'Distinct Rating'}
-    )
-
-    # Customize the layout
-    fig_availability_rating.update_layout(
-        xaxis_title='Availability Period',
-        yaxis_title='Distinct Rating'
-    )
-
-    # Show the plot using Streamlit's Plotly support
-    st.plotly_chart(fig_availability_rating)
-
-    # Display the distinct ratings and availability periods in the form of a table
-    st.subheader("Distinct Ratings by Availability Period")
-    st.write(melted_availability_df[['Availability Period', 'review_scores.review_scores_rating']].drop_duplicates())
-
-elif analysis == '8. Analysis of the relationship between price and availability':
+elif analysis == '7. Analysis of the relationship between price and availability':
     availability_columns = [
     'availability.availability_365',
     'availability.availability_30',
@@ -303,7 +265,7 @@ elif analysis == '8. Analysis of the relationship between price and availability
     st.subheader("Average Availability by Price and Period")
     st.write(avg_availability_by_price)
 
-elif analysis == '9. Fetch the property_type, name, and amenities for the desired price, accommodation, and country':
+elif analysis == '8. Fetch the property_type, listing, and amenities for the desired price, accommodation, and country':
     # Get unique values for price and country
     unique_prices = sorted(df['price'].unique())
     unique_countries = sorted(df['address.country'].unique())
@@ -346,7 +308,7 @@ elif analysis == '9. Fetch the property_type, name, and amenities for the desire
             st.write(max_rating_row['review_scores.review_scores_rating'])
         else:
             st.write('No listings found for the given price range and country.')
-elif analysis == '10. Fetch the name, price, accommodates, amenities, street for the specified country and property_type':
+elif analysis == '9. Fetch the name, price, accommodates, amenities, street for the specified country and property_type':
     # Create dropdown menus for country and property_type
     selected_country = st.selectbox('Select Country', df['address.country'].unique())
     selected_property_type = st.selectbox('Select Property Type', df['property_type'].unique())
@@ -358,7 +320,7 @@ elif analysis == '10. Fetch the name, price, accommodates, amenities, street for
     st.subheader(f"Properties in {selected_country} with Property Type = {selected_property_type}")
     st.write(filtered_df[['name', 'price', 'accommodates', 'amenities','address.street']])
 
-elif analysis == '11. Fetch the number of bathrooms and bedrooms for the desired property_type':
+elif analysis == '10. Fetch the name, country, street, number of bathrooms and bedrooms for the desired property_type':
     # Dropdown menu for selecting property_type
     unique_property_types = df['property_type'].unique()
     selected_property_type = st.selectbox('Select the property type:', unique_property_types)
@@ -367,9 +329,9 @@ elif analysis == '11. Fetch the number of bathrooms and bedrooms for the desired
     filtered_df_11 = df[df['property_type'] == selected_property_type]
 
     # Display the filtered data
-    st.subheader("Number of Bathrooms and Bedrooms")
+    st.subheader("Listing name, country, street, number of bathrooms and bedrooms for the desired property_type")
     st.write(filtered_df_11[['name','bathrooms', 'bedrooms','address.country','address.street']])
-elif analysis == '12. Analysis of home stay count for each country':
+elif analysis == '11. Analysis of home stay count for each country':
     # Group by 'address.country' and count the number of values in the 'name' column
     country_homestay_count = df.groupby('address.country')['name'].count().reset_index()
     country_homestay_count.columns = ['Country', 'Homestay Count']
@@ -399,7 +361,7 @@ elif analysis == '12. Analysis of home stay count for each country':
     # Display the data in the form of a table
     st.subheader("Home Stay Count by Country")
     st.write(country_homestay_count)
-elif analysis == '13. Analysis of country based on the sorted order of average ratings given to home stays in that particular country':
+elif analysis == '12. Analysis of country based on the sorted order of average ratings given to home stays in that particular country':
     # Group by 'country' and calculate the average rating
     avg_rating_by_country = df.groupby('address.country')['review_scores.review_scores_rating'].mean().reset_index()
 
