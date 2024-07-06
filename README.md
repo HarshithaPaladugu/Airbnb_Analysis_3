@@ -13,13 +13,12 @@ Dataset:https://drive.google.com/file/d/1C7AilYDf2pA09Jy-5wYysvLwKC9_Fu9X/view
   -Analysis 4: Relationship among property_type, availability_365, availability_30, availability_60, availability_90',
   -Analysis 5: Relationship between property_type and rating
   -Analysis 6: Relationship between price and rating
-  -Analysis 7: Relationship between rating and availability
-  -Analysis 8: Relationship between price and availability
-  -9. Fetch the property_type, name, and amenities for the desired price, accommodation, and country
-  -10. Fetch the name, price, accommodates, amenities, street for the specified country and property_type
-  -11. Fetch the number of bathrooms and bedrooms for the desired property_type
-  -12. Analysis of home stay count for each country
-  -13. Analysis of country based on the sorted order of average ratings given to home stays in that particular country
+  -Analysis 7: Relationship between price and availability
+  -8. Fetch the property_type, name, and amenities for the desired price, accommodation, and country
+  -9. Fetch the name, price, accommodates, amenities, street for the specified country and property_type
+  -10. Fetch the number of bathrooms and bedrooms for the desired property_type
+  -11. Analysis of home stay count for each country
+  -12. Analysis of country based on the sorted order of average ratings given to home stays in that particular country
 *For the above Analysis appropriate visualizations is used for better understanding of the relationship between the desired attributes or 
  columns of Airbnb dataset.
 #Test3_5.ipynb:
