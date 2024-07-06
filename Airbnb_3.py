@@ -1,7 +1,6 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-import plotly.graph_objects as go
 import seaborn as sns
 import matplotlib.pyplot as plt
 # Load the updated data
@@ -291,6 +290,7 @@ elif analysis == '8. Fetch the property_type, listing, and amenities for the des
             best_listing_name = max_rating_row['name']
             property_type = max_rating_row['property_type']
             amenities = max_rating_row['amenities']
+            accommodates=max_rating_row['accommodates']
             best_listing_price = max_rating_row['price']
 
             # Display the best listing name, property type, amenities, and price
@@ -300,6 +300,8 @@ elif analysis == '8. Fetch the property_type, listing, and amenities for the des
             st.write(property_type)
             st.subheader('Amenities:')
             st.write(amenities)
+            st.subheader('Accomodation')
+            st.write(accommodates)
             st.subheader('Price:')
             st.write(best_listing_price)
 
